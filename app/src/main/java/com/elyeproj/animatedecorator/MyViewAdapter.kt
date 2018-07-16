@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 
 class MyViewAdapter(val context: Context): RecyclerView.Adapter<MyViewHolder>() {
-    private val dataList = listOf("a", "b", "c", "d", "e")
+    private val dataList = listOf("a", "b", "c", "d", "e", "f")
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         return MyViewHolder(LayoutInflater.from(context).inflate(R.layout.view_item, parent, false))
