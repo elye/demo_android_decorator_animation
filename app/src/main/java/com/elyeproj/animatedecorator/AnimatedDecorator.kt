@@ -5,7 +5,7 @@ import android.graphics.Rect
 import android.support.v7.widget.RecyclerView
 import android.view.View
 
-class AnimatedDecorator(val targetView: View, val side: Side, private val predicate: (Int) -> Boolean) : RecyclerView.ItemDecoration() {
+class AnimatedDecorator(val drawable: AnimatedDecoratorDrawable, val side: Side, private val predicate: (Int) -> Boolean) : RecyclerView.ItemDecoration() {
 
     enum class Side {
         TOP,
@@ -16,8 +16,8 @@ class AnimatedDecorator(val targetView: View, val side: Side, private val predic
         val position = parent.getChildLayoutPosition(view)
         if (predicate(position)) {
             when (side) {
-                Side.TOP -> outRect.set(0, targetView.measuredHeight, 0, 0)
-                Side.BOTTOM -> outRect.set(0, 0, 0, targetView.measuredHeight)
+                Side.TOP -> outRect.set(0, drawable.height, 0, 0)
+                Side.BOTTOM -> outRect.set(0, 0, 0, drawable.height)
             }
         }
     }
@@ -31,7 +31,7 @@ class AnimatedDecorator(val targetView: View, val side: Side, private val predic
                     val position = getChildAdapterPosition(child)
                     if (position != RecyclerView.NO_POSITION && predicate(position)) {
                         mustInvalidate = true
-                        drawView(canvas, targetView, child)
+                        drawView(canvas, drawable, child)
                     }
                 }
                 if (mustInvalidate) invalidate()
@@ -39,16 +39,21 @@ class AnimatedDecorator(val targetView: View, val side: Side, private val predic
         }
     }
 
-    private fun drawView(canvas: Canvas?, view: View, child: View) {
+    private fun drawView(canvas: Canvas?, drawable: AnimatedDecoratorDrawable, child: View) {
         canvas?.apply {
             val params = child.layoutParams as RecyclerView.LayoutParams
             save()
             when (side) {
-                Side.TOP -> translate(child.left.toFloat(), (child.top - params.topMargin - view.height).toFloat())
+                Side.TOP -> translate(child.left.toFloat(), (child.top - params.topMargin - drawable.height).toFloat())
                 Side.BOTTOM -> translate(child.left.toFloat(), (child.bottom + params.bottomMargin).toFloat())
             }
-            view.draw(canvas)
+            drawable.draw(canvas)
             restore()
         }
+    }
+
+    interface AnimatedDecoratorDrawable {
+        fun draw(canvas: Canvas)
+        val height: Int
     }
 }

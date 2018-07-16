@@ -17,11 +17,11 @@ class MainActivity : AppCompatActivity() {
         recycler_view.layoutManager = LinearLayoutManager(this)
         recycler_view.adapter = MyViewAdapter(this)
         recycler_view.addItemDecoration(AnimatedDecorator(
-                recycler_view.setupChildView(R.layout.decorator_twin_fish), AnimatedDecorator.Side.TOP) {
+                ViewAnimatedDecoratorDrawable(recycler_view.setupChildView(R.layout.decorator_twin_fish)), AnimatedDecorator.Side.TOP) {
             it == recycler_view.layoutManager.itemCount - 1
         })
         recycler_view.addItemDecoration(AnimatedDecorator(
-                recycler_view.setupChildView(R.layout.decorator_circle), AnimatedDecorator.Side.BOTTOM) {
+                ViewAnimatedDecoratorDrawable(recycler_view.setupChildView(R.layout.decorator_circle)), AnimatedDecorator.Side.BOTTOM) {
             it == 0
         })
     }
