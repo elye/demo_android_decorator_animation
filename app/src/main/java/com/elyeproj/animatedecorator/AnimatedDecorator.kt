@@ -55,5 +55,6 @@ class AnimatedDecorator(val drawable: AnimatedDecoratorDrawable, val side: Side,
     interface AnimatedDecoratorDrawable {
         fun draw(canvas: Canvas)
         val height: Int
+        val width: Int
     }
 }
